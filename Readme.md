@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Алексей Герасименко](https://up.htmlacademy.ru/javascript/19/user/1167871).
-* Наставник: `Дмитрий Орленко`.
+* Наставник: [Дмитрий Орленко](https://htmlacademy.ru/profile/id104887).
 
 ---
 
