@@ -111,25 +111,25 @@ var mockOffersGenerator = function (count) {
 };
 
 // Функция добавления пинов на карту
-var addToMap = function () {
-  var fragment = document.createDocumentFragment();
-  var pinTemplate = getSelector('#pin').content;
-  for (var i = 0; i < mocks.length; i++) {
-    var pinForAdd = pinTemplate.cloneNode(true);
-    var pinImg = pinForAdd.querySelector('img');
-    var pinButton = pinForAdd.querySelector('.map__pin');
-    pinButton.style = 'left: ' + (mocks[i].offer.location.x + MAP_PIN_SIZE/2) + 'px; top: ' + (mocks[i].offer.location.y + MAP_PIN_HEIGHT) + 'px';
-    pinImg.src = mocks[i].author.avatar;
-    pinImg.alt = mocks[i].offer.title;
-    fragment.appendChild(pinForAdd);
-  }
-  // Добавляем пины на карту
-  getSelector('.map__pins').appendChild(fragment);
-};
+// var addToMap = function () {
+//   var fragment = document.createDocumentFragment();
+//   var pinTemplate = getSelector('#pin').content;
+//   for (var i = 0; i < mocks.length; i++) {
+//     var pinForAdd = pinTemplate.cloneNode(true);
+//     var pinImg = pinForAdd.querySelector('img');
+//     var pinButton = pinForAdd.querySelector('.map__pin');
+//     pinButton.style = 'left: ' + (mocks[i].offer.location.x + MAP_PIN_SIZE/2) + 'px; top: ' + (mocks[i].offer.location.y + MAP_PIN_HEIGHT) + 'px';
+//     pinImg.src = mocks[i].author.avatar;
+//     pinImg.alt = mocks[i].offer.title;
+//     fragment.appendChild(pinForAdd);
+//   }
+//   // Добавляем пины на карту
+//   getSelector('.map__pins').appendChild(fragment);
+// };
 
-// // Генерируем мокап данные
-// mockOffersGenerator(MOCK_COUNT);
-// // Выводим предложения на карту
+// Генерируем мокап данные
+mockOffersGenerator(MOCK_COUNT);
+// Выводим предложения на карту
 // addToMap();
 
 // Функция отключения/включения элементов формы
@@ -152,7 +152,7 @@ var activateForm = function () {
   setDisableToggle(FORM_ELEMENTS, 'remove');
   getSelector('.map').classList.remove('map--faded');
   getSelector('.ad-form').classList.remove('ad-form--disabled');
-  setCoordinates(getSelector('.map__pin--main').style.left, getSelector('.map__pin--main').style.top,  MAP_PIN_SIZE/2, MAP_PIN_HEIGHT);
+  setCoordinates(getSelector('.map__pin--main').style.left, getSelector('.map__pin--main').style.top, MAP_PIN_SIZE / 2, MAP_PIN_HEIGHT);
 };
 
 getSelector('.map__pin--main').addEventListener('mousedown', function (evt) {
@@ -171,12 +171,16 @@ getSelector('.map__pin--main').addEventListener('keydown', function (evt) {
 var setCoordinates = function (x, y, xCorrection, yCorrection) {
   x = parseInt(x, 10);
   y = parseInt(y, 10);
-  if (xCorrection > 0) x += xCorrection;
-  if (yCorrection > 0) y += yCorrection;
+  if (xCorrection > 0) {
+    x += xCorrection;
+  }
+  if (yCorrection > 0) {
+    y += yCorrection;
+  }
   getSelector('#address').value = Math.round(x) + ', ' + Math.round(y);
 };
 
-setCoordinates(getSelector('.map__pin--main').style.left, getSelector('.map__pin--main').style.top, MAP_PIN_SIZE/2, MAP_PIN_SIZE/2);
+setCoordinates(getSelector('.map__pin--main').style.left, getSelector('.map__pin--main').style.top, MAP_PIN_SIZE / 2, MAP_PIN_SIZE / 2);
 
 // Функция установки минимального значения для поля цена
 var setPrice = function (index) {
