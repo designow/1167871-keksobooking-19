@@ -49,9 +49,6 @@ var PHOTOS = [
 
 var FORM_ELEMENTS = [
   '.ad-form fieldset',
-  '.ad-form input',
-  '.ad-form select',
-  '.ad-form button',
   '.map__filters select',
   '.map__filters fieldset'
 ];
@@ -171,12 +168,8 @@ getSelector('.map__pin--main').addEventListener('keydown', function (evt) {
 var setCoordinates = function (x, y, xCorrection, yCorrection) {
   x = parseInt(x, 10);
   y = parseInt(y, 10);
-  if (xCorrection > 0) {
-    x += xCorrection;
-  }
-  if (yCorrection > 0) {
-    y += yCorrection;
-  }
+  x += xCorrection;
+  y += yCorrection;
   getSelector('#address').value = Math.round(x) + ', ' + Math.round(y);
 };
 
