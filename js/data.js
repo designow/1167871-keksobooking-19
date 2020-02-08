@@ -101,5 +101,5 @@
     }
   };
     // Генерируем мокап данные
-    mockOffersGenerator(MOCK_COUNT);
+  mockOffersGenerator(MOCK_COUNT);
 })();

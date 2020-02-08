@@ -18,8 +18,8 @@
 
   window.map = {
     X_MAX: X_MAX,
-    Y_MIN, Y_MIN,
-    Y_MAX, Y_MAX,
+    Y_MIN: Y_MIN,
+    Y_MAX: Y_MAX,
     MAP_PIN_HEIGHT: MAP_PIN_HEIGHT,
     MAP_PIN_SIZE: MAP_PIN_SIZE,
     setCoordinates: setCoordinates
