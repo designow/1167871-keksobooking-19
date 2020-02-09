@@ -25,53 +25,53 @@
 
   var activateForm = function () {
     setDisableToggle(FORM_ELEMENTS, 'remove');
-    window.core.getSelector('.map').classList.remove('map--faded');
-    window.core.getSelector('.ad-form').classList.remove('ad-form--disabled');
-    window.core.getSelector('#address').value = window.map.setCoordinates(
-        window.core.getSelector('.map__pin--main').style.left,
-        window.core.getSelector('.map__pin--main').style.top,
+    window.util.getSelector('.map').classList.remove('map--faded');
+    window.util.getSelector('.ad-form').classList.remove('ad-form--disabled');
+    window.util.getSelector('#address').value = window.map.setCoordinates(
+        window.util.getSelector('.map__pin--main').style.left,
+        window.util.getSelector('.map__pin--main').style.top,
         window.map.MAP_PIN_SIZE / 2,
         window.map.MAP_PIN_HEIGHT);
   };
 
-  window.core.getSelector('.map__pin--main').addEventListener('mousedown', function (evt) {
+  window.util.getSelector('.map__pin--main').addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       activateForm();
     }
   });
 
-  window.core.getSelector('.map__pin--main').addEventListener('keydown', function (evt) {
+  window.util.getSelector('.map__pin--main').addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
       activateForm();
     }
   });
 
-
-  window.core.getSelector('#address').value = window.map.setCoordinates(
-      window.core.getSelector('.map__pin--main').style.left,
-      window.core.getSelector('.map__pin--main').style.top,
+  // Установка координат в поле адрес
+  window.util.getSelector('#address').value = window.map.setCoordinates(
+      window.util.getSelector('.map__pin--main').style.left,
+      window.util.getSelector('.map__pin--main').style.top,
       window.map.MAP_PIN_SIZE / 2,
       window.map.MAP_PIN_SIZE / 2);
 
 
   // Функция установки минимального значения для поля цена
   var setPrice = function (index) {
-    window.core.getSelector('#price').setAttribute('min', window.data.PRICES[index]);
-    window.core.getSelector('#price').setAttribute('placeholder', window.data.PRICES[index]);
+    window.util.getSelector('#price').setAttribute('min', window.data.PRICES[index]);
+    window.util.getSelector('#price').setAttribute('placeholder', window.data.PRICES[index]);
   };
 
-  setPrice(window.core.getSelector('#type').options.selectedIndex);
-  window.core.getSelector('#type').addEventListener('change', function () {
-    setPrice(window.core.getSelector('#type').options.selectedIndex);
+  setPrice(window.util.getSelector('#type').options.selectedIndex);
+  window.util.getSelector('#type').addEventListener('change', function () {
+    setPrice(window.util.getSelector('#type').options.selectedIndex);
   });
 
   // Синхронизация заезда - выезда
-  window.core.getSelector('#timein').addEventListener('change', function () {
-    window.core.getSelector('#timeout').options.selectedIndex = window.core.getSelector('#timein').options.selectedIndex;
+  window.util.getSelector('#timein').addEventListener('change', function () {
+    window.util.getSelector('#timeout').options.selectedIndex = window.util.getSelector('#timein').options.selectedIndex;
   });
 
-  window.core.getSelector('#timeout').addEventListener('change', function () {
-    window.core.getSelector('#timein').options.selectedIndex = window.core.getSelector('#timeout').options.selectedIndex;
+  window.util.getSelector('#timeout').addEventListener('change', function () {
+    window.util.getSelector('#timein').options.selectedIndex = window.util.getSelector('#timeout').options.selectedIndex;
   });
 
   // Управление числом гостей
@@ -96,9 +96,9 @@
     }
   };
 
-  window.core.getSelector('#room_number').addEventListener('change', function () {
-    setGuests(window.core.getSelector('#room_number').value);
+  window.util.getSelector('#room_number').addEventListener('change', function () {
+    setGuests(window.util.getSelector('#room_number').value);
   });
 
-  setGuests(window.core.getSelector('#room_number').value);
+  setGuests(window.util.getSelector('#room_number').value);
 })();

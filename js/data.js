@@ -52,22 +52,6 @@
   var ROOMS = 6; // Максимальное количество комнат
   var GUESTS = 12; // Максимальное количество гостей
 
-  window.data = {
-    TITLES: TITLES,
-    TYPES: TYPES,
-    CHECKINS: CHECKINS,
-    CHECKOUTS: CHECKOUTS,
-    FEATURES: FEATURES,
-    PRICES: PRICES,
-    NOT_FOR_GUESTS: NOT_FOR_GUESTS,
-    DESCRIPTION: DESCRIPTION,
-    PHOTOS: PHOTOS,
-    ADDRESS: ADDRESS,
-    PRICE: PRICE,
-    ROOMS: ROOMS,
-    GUESTS: GUESTS
-  };
-
   // Генератор случайных предложений
   var mockOfferCreator = function (i) {
     var mockOffer = {};
@@ -75,20 +59,20 @@
       avatar: 'img/avatars/user0' + i + '.png'
     };
     mockOffer.offer = {
-      title: TITLES[window.core.getRandom(0, TYPES.length - 1)],
-      address: window.core.getRandom(0, ADDRESS) + ', ' + window.core.getRandom(0, ADDRESS),
-      price: window.core.getRandom(0, PRICE),
-      type: TYPES[window.core.getRandom(0, TYPES.length - 1)],
-      rooms: window.core.getRandom(0, ROOMS),
-      guests: window.core.getRandom(0, GUESTS),
-      checkin: CHECKINS[window.core.getRandom(0, CHECKINS.length - 1)],
-      checkout: CHECKOUTS[window.core.getRandom(0, CHECKOUTS.length - 1)],
-      features: FEATURES.slice(window.core.getRandom(0, FEATURES.length - 1)),
+      title: TITLES[window.util.getRandom(0, TYPES.length - 1)],
+      address: window.util.getRandom(0, ADDRESS) + ', ' + window.util.getRandom(0, ADDRESS),
+      price: window.util.getRandom(0, PRICE),
+      type: TYPES[window.util.getRandom(0, TYPES.length - 1)],
+      rooms: window.util.getRandom(0, ROOMS),
+      guests: window.util.getRandom(0, GUESTS),
+      checkin: CHECKINS[window.util.getRandom(0, CHECKINS.length - 1)],
+      checkout: CHECKOUTS[window.util.getRandom(0, CHECKOUTS.length - 1)],
+      features: FEATURES.slice(window.util.getRandom(0, FEATURES.length - 1)),
       description: DESCRIPTION,
-      photos: PHOTOS.slice(window.core.getRandom(0, PHOTOS.length - 1)),
+      photos: PHOTOS.slice(window.util.getRandom(0, PHOTOS.length - 1)),
       location: {
-        x: window.core.getRandom(0, window.map.X_MAX),
-        y: window.core.getRandom(window.map.Y_MIN, window.map.Y_MAX)
+        x: window.util.getRandom(0, window.map.X_MAX),
+        y: window.util.getRandom(window.map.Y_MIN, window.map.Y_MAX)
       }
     };
     return mockOffer;
@@ -102,4 +86,11 @@
   };
     // Генерируем мокап данные
   mockOffersGenerator(MOCK_COUNT);
+
+  window.data = {
+    NOT_FOR_GUESTS: NOT_FOR_GUESTS,
+    PRICE: PRICE,
+    PRICES: PRICES,
+    mocks: mocks
+  };
 })();
