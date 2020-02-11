@@ -14,6 +14,6 @@
 
   window.util = {
     getSelector: getSelector,
-    getRandom: getRandom
+    getRandom: getRandom,
   };
 })();
