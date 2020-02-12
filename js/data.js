@@ -13,10 +13,11 @@
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   };
-
+  // Обработчик успешной передачи данных с сервера
   var successHandler = function (data) {
     for (var i = 0; i < data.length; i++) {
-      window.pin.addToMap(data[i]);
+      window.pin.addPinToMap(data[i]);
+      window.card.addCardToMap(data[i]);
     }
   };
 
