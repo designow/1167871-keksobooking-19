@@ -5,28 +5,16 @@
     var cardFragment = document.createDocumentFragment();
     var cardTemplate = window.util.getSelector('#card').content;
     var cardForAdd = cardTemplate.cloneNode(true);
+    var TYPE_OF_HOUSE_CARD = {
+      'palace': 'Дворец',
+      'flat': 'Квартира',
+      'house': 'Дом',
+      'bungalo': 'Бунгало'
+    };
     cardForAdd.querySelector('.popup__title').textContent = data.offer.title;
     cardForAdd.querySelector('.popup__text--address').textContent = data.offer.address;
     cardForAdd.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
-    var apartType;
-    switch (data.offer.type) {
-      case 'flat':
-        apartType = 'Квартира';
-        break;
-      case 'bungalo':
-        apartType = 'Бунгало';
-        break;
-      case 'house':
-        apartType = 'Дом';
-        break;
-      case 'palace':
-        apartType = 'Дворец';
-        break;
-      default:
-        apartType = '';
-        break;
-    }
-    cardForAdd.querySelector('.popup__type').textContent = apartType;
+    cardForAdd.querySelector('.popup__type').textContent = TYPE_OF_HOUSE_CARD[data.offer.type];
     cardForAdd.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
     cardForAdd.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
     // Удаляем всех потомков у features
