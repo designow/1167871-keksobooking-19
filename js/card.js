@@ -1,7 +1,7 @@
 'use strict';
 (function () {
 // Функция добавления карточки предложения на карту
-  var addCardToMap = function (data) {
+  var addCardToMap = function (data, num) {
     var cardFragment = document.createDocumentFragment();
     var cardTemplate = window.util.getSelector('#card').content;
     var cardForAdd = cardTemplate.cloneNode(true);
@@ -11,6 +11,8 @@
       'house': 'Дом',
       'bungalo': 'Бунгало'
     };
+    cardForAdd.querySelector('.map__card').classList.add('hidden');
+    cardForAdd.querySelector('.map__card').setAttribute('id', 'offerCard-' + num);
     cardForAdd.querySelector('.popup__title').textContent = data.offer.title;
     cardForAdd.querySelector('.popup__text--address').textContent = data.offer.address;
     cardForAdd.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
@@ -41,7 +43,26 @@
     // Добавляем карточку на карту
     window.util.getSelector('.map').insertBefore(cardFragment, window.util.getSelector('.map__filters-container'));
   };
+  var cardShow = function (num) {
+    var cards = document.querySelectorAll('.map__card');
+    var ESC_KEY = 'Escape';
+    for (var i = 0; i < cards.length; i++) {
+      if (!cards[i].classList.contains('hidden')) {
+        cards[i].classList.add('hidden');
+      }
+    }
+    var currentCard = window.util.getSelector('#offerCard-' + num);
+    var closeHandler = function (evt) {
+      if (evt.type === 'keydown' && evt.key === ESC_KEY || evt.type === 'click') {
+        currentCard.classList.add('hidden');
+      }
+    };
+    currentCard.classList.remove('hidden');
+    currentCard.querySelector('.popup__close').addEventListener('click', closeHandler);
+    document.addEventListener('keydown', closeHandler);
+  };
   window.card = {
-    addCardToMap: addCardToMap
+    addCardToMap: addCardToMap,
+    cardShow: cardShow
   };
 })();
