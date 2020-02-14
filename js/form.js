@@ -27,11 +27,6 @@
     setDisableToggle(FORM_ELEMENTS, 'remove');
     window.util.getSelector('.map').classList.remove('map--faded');
     window.util.getSelector('.ad-form').classList.remove('ad-form--disabled');
-    window.util.getSelector('#address').value = window.map.setCoordinates(
-        window.util.getSelector('.map__pin--main').style.left,
-        window.util.getSelector('.map__pin--main').style.top,
-        window.map.MAP_PIN_SIZE / 2,
-        window.map.MAP_PIN_HEIGHT);
   };
 
   window.util.getSelector('.map__pin--main').addEventListener('mousedown', function (evt) {
