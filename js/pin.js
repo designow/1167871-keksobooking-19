@@ -35,6 +35,7 @@
 
 (function () {
   var pinHandler = window.util.getSelector('.map__pin--main');
+
   pinHandler.addEventListener('mousedown', function (evt) {
     var startCoords = {
       x: evt.clientX,
@@ -71,8 +72,8 @@
     };
 
     var onMouseUp = function () {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      pinHandler.removeEventListener('mousemove', onMouseMove);
+      pinHandler.removeEventListener('mouseup', onMouseUp);
       window.util.getSelector('#address').value = window.map.setCoordinates(
           window.util.getSelector('.map__pin--main').style.left,
           window.util.getSelector('.map__pin--main').style.top,
@@ -80,8 +81,8 @@
           window.map.MAP_PIN_HEIGHT);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    pinHandler.addEventListener('mousemove', onMouseMove);
+    pinHandler.addEventListener('mouseup', onMouseUp);
   });
 })();
 
