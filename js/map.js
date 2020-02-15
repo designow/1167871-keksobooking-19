@@ -1,7 +1,7 @@
 'use strict';
 (function () {
 
-  var X_MAX = 1100;
+  var X_MAX = 1200;
   var Y_MIN = 130;
   var Y_MAX = 630;
   var MAP_PIN_HEIGHT = 85;
