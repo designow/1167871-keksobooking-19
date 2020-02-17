@@ -9,5 +9,5 @@
   });
   window.filter = {
     filterData: filterData
-  }
+  };
 })();

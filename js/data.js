@@ -32,9 +32,9 @@
       }
     }
     var pinLimit = (data.length > PIN_LIMIT) ? PIN_LIMIT : data.length;
-    for (var i = 0; i < pinLimit; i++) {
-      window.pin.addPinToMap(data[i], i);
-      window.card.addCardToMap(data[i], i);
+    for (var k = 0; k < pinLimit; k++) {
+      window.pin.addPinToMap(data[k], k);
+      window.card.addCardToMap(data[k], k);
     }
   };
 

@@ -1,7 +1,7 @@
 'use strict';
 (function () {
 
-// Функция добавления пинов на карту
+  // Функция добавления пинов на карту
   var addPinToMap = function (data, num) {
     var fragment = document.createDocumentFragment();
     var pinTemplate = window.util.getSelector('#pin').content;
