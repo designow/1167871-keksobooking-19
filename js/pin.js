@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+
 // Функция добавления пинов на карту
   var addPinToMap = function (data, num) {
     var fragment = document.createDocumentFragment();
@@ -7,7 +8,7 @@
     var pinForAdd = pinTemplate.cloneNode(true);
     var pinImg = pinForAdd.querySelector('img');
     var pinButton = pinForAdd.querySelector('.map__pin');
-    // Показываем карточку через замыкания функции
+    // Добавляем слушателя на показ карточки через замыкание функции
     pinButton.addEventListener('click', function () {
       window.card.cardShow(num);
       var pinButtons = document.querySelectorAll('.map__pin');
@@ -29,6 +30,7 @@
   window.pin = {
     addPinToMap: addPinToMap,
   };
+
 })();
 
 // Drag-and-Drop метки на карте
