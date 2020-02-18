@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  // Количество пинов на карте
+  var PIN_LIMIT = 5;
 
   // Функция добавления пинов на карту
   var addPinToMap = function (data, num) {
@@ -27,8 +29,26 @@
     window.util.getSelector('.map__pins').appendChild(fragment);
   };
 
+  var addRemovePins = function (data) {
+    var pins = document.querySelectorAll('.map__pin');  
+    var card = document.querySelectorAll('.map__card');
+    for (var i = 0; i < pins.length; i++) {
+      if (!pins[i].classList.contains('map__pin--main')) {
+        pins[i].remove();
+      }
+      if (card[i]) {
+        card[i].remove();
+      }
+    }
+    var pinLimit = (data.length > PIN_LIMIT) ? PIN_LIMIT : data.length;
+    for (var k = 0; k < pinLimit; k++) {
+      addPinToMap(data[k], k);
+      window.card.addCardToMap(data[k], k);
+    }
+  };
   window.pin = {
     addPinToMap: addPinToMap,
+    addRemovePins: addRemovePins
   };
 
 })();
@@ -62,8 +82,8 @@
 
       if (parseInt(pinHandler.style.top, 10) > window.map.Y_MAX) {
         pinHandler.style.top = window.map.Y_MAX + 'px';
-      } else if (parseInt(pinHandler.style.top, 10) < 0) {
-        pinHandler.style.top = 0 + 'px';
+      } else if (parseInt(pinHandler.style.top, 10) < window.map.Y_MIN) {
+        pinHandler.style.top = window.map.Y_MIN + 'px';
       }
 
       if ((parseInt(pinHandler.style.left, 10) + window.map.MAP_PIN_SIZE / 2) >= window.map.X_MAX) {
@@ -74,6 +94,7 @@
     };
 
     var onMouseUp = function () {
+
       pinHandler.removeEventListener('mousemove', onMouseMove);
       pinHandler.removeEventListener('mouseup', onMouseUp);
       window.util.getSelector('#address').value = window.map.setCoordinates(

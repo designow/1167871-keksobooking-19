@@ -10,7 +10,8 @@
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
+        window.serverData = xhr.response; // сохраняем полученный результат
+        onSuccess(window.serverData);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }

@@ -5,6 +5,8 @@
     '.map__filters select',
     '.map__filters fieldset'
   ];
+  // Флаг определяющий включение карты
+  window.mapFlag = false;
 
   // Функция отключения/включения элементов формы
   var setDisableToggle = function (data, toggle) {
@@ -25,19 +27,20 @@
 
   var activateForm = function () {
     setDisableToggle(FORM_ELEMENTS, 'remove');
-    window.util.getSelector('.map').classList.remove('map--faded');
     window.util.getSelector('.ad-form').classList.remove('ad-form--disabled');
   };
 
   window.util.getSelector('.map__pin--main').addEventListener('mousedown', function (evt) {
-    if (evt.button === 0) {
+    if (evt.button === 0 && window.mapFlag === false) {
       activateForm();
+      window.backend.load(window.data.successHandler, window.data.errorHandler);
     }
   });
 
   window.util.getSelector('.map__pin--main').addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
       activateForm();
+      window.backend.load(successHandler, errorHandler);
     }
   });
 
