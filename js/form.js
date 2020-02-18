@@ -40,7 +40,7 @@
   window.util.getSelector('.map__pin--main').addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
       activateForm();
-      window.backend.load(successHandler, errorHandler);
+      window.backend.load(window.data.successHandler, window.data.errorHandler);
     }
   });
 

@@ -30,7 +30,7 @@
   };
 
   var addRemovePins = function (data) {
-    var pins = document.querySelectorAll('.map__pin');  
+    var pins = document.querySelectorAll('.map__pin');
     var card = document.querySelectorAll('.map__card');
     for (var i = 0; i < pins.length; i++) {
       if (!pins[i].classList.contains('map__pin--main')) {
