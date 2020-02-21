@@ -1,11 +1,33 @@
 'use strict';
 (function () {
   var NOT_FOR_GUESTS = 100;
-  // Строимость проживания в бунгало/квартире/доме/дворце
-  var PRICES = [0, 1000, 5000, 10000];
   // Веса параметров
   var PROPERTY_RANK = {
-    type: 1
+    'housing-typetype': 2,
+    'housing-price': 2,
+    'housing-rooms': 1,
+    'housing-guests': 1,
+    'wifi': 1,
+    'dishwasher': 1,
+    'parking': 1,
+    'washer': 1,
+    'elevator': 1,
+    'conditioner': 1
+  };
+
+  var priceData = {
+    low: {
+      min: 0,
+      max: 10000
+    },
+    middle: {
+      min: 10000,
+      max: 50000
+    },
+    high: {
+      min: 50000,
+      max: Number.MAX_VALUE
+    }
   };
 
   var errorHandler = function (errorMessage) {
@@ -28,8 +50,33 @@
   // Функция сортировки предложений массива
   var getRank = function (data) {
     var rank = 0;
-    if (data.offer.type === window.filter.filterData.type) {
-      rank += PROPERTY_RANK.type;
+
+    // Фильтрация типа жилья
+    if (data.offer.type === window.filter.filterData['housing-type']) {
+      rank += PROPERTY_RANK['housing-typetype'];
+    }
+
+    // Фильтрация количества комнат
+    if (data.offer.rooms === parseInt(window.filter.filterData['housing-rooms'], 10)) {
+      rank += PROPERTY_RANK['housing-rooms'];
+    }
+
+    // Фильтрация количества гостей
+    if (data.offer.guests >= parseInt(window.filter.filterData['housing-guests'], 10)) {
+      rank += PROPERTY_RANK['housing-guests'];
+    }
+
+    // Фильтрация наличие фитч
+    for (var i = 0; i < data.offer.features.length; i++) {
+      if (window.filter.filterData.features.indexOf(data.offer.features[i]) !== -1) {
+        rank += PROPERTY_RANK[data.offer.features[i]];
+      }
+    }
+    // Фильтрация стоимости аренды
+    if (priceData.hasOwnProperty(window.filter.filterData['housing-price'])) {
+      if (data.offer.price >= priceData[window.filter.filterData['housing-price']].min && data.offer.price <= priceData[window.filter.filterData['housing-price']].max) {
+        rank += PROPERTY_RANK['housing-price'];
+      }
     }
     return rank;
   };
@@ -43,7 +90,7 @@
       return 0;
     }
   };
-  // Сортировка данных
+  // Сортировка данных в соответствии с настройками фильтра
   var sortData = function (data) {
     data.sort(function (left, right) {
       var rankDiff = getRank(right) - getRank(left);
@@ -54,16 +101,15 @@
     });
     return data;
   };
-
-  var updatePins = function (data) {
+  // Промежуточная функция: копируем данные и отправляем клон на сортировку, далее вызываем перерисовку
+  var updatePins = window.debounce(function (data) {
     var sortedData = data.slice();
     sortData(sortedData);
     window.pin.addRemovePins(sortedData);
-  };
+  });
 
   window.data = {
     NOT_FOR_GUESTS: NOT_FOR_GUESTS,
-    PRICES: PRICES,
     updatePins: updatePins,
     successHandler: successHandler,
     errorHandler: errorHandler

@@ -95,17 +95,15 @@
 
     var onMouseUp = function () {
 
-      pinHandler.removeEventListener('mousemove', onMouseMove);
-      pinHandler.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
       window.util.getSelector('#address').value = window.map.setCoordinates(
-          window.util.getSelector('.map__pin--main').style.left,
-          window.util.getSelector('.map__pin--main').style.top,
           window.map.MAP_PIN_SIZE / 2,
           window.map.MAP_PIN_HEIGHT);
     };
 
-    pinHandler.addEventListener('mousemove', onMouseMove);
-    pinHandler.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 })();
 

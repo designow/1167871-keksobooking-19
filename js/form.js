@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  // Строимость проживания в бунгало/квартире/доме/дворце
+  var PRICES = [0, 1000, 5000, 10000];
+
   var FORM_ELEMENTS = [
     '.ad-form fieldset',
     '.map__filters select',
@@ -46,16 +49,14 @@
 
   // Установка координат в поле адрес
   window.util.getSelector('#address').value = window.map.setCoordinates(
-      window.util.getSelector('.map__pin--main').style.left,
-      window.util.getSelector('.map__pin--main').style.top,
       window.map.MAP_PIN_SIZE / 2,
       window.map.MAP_PIN_SIZE / 2);
 
 
   // Функция установки минимального значения для поля цена
   var setPrice = function (index) {
-    window.util.getSelector('#price').setAttribute('min', window.data.PRICES[index]);
-    window.util.getSelector('#price').setAttribute('placeholder', window.data.PRICES[index]);
+    window.util.getSelector('#price').setAttribute('min', PRICES[index]);
+    window.util.getSelector('#price').setAttribute('placeholder', PRICES[index]);
   };
 
   setPrice(window.util.getSelector('#type').options.selectedIndex);

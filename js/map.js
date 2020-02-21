@@ -8,9 +8,9 @@
   var MAP_PIN_SIZE = 65;
 
   // Функция определения координат метки
-  var setCoordinates = function (x, y, xCorrection, yCorrection) {
-    x = parseInt(x, 10);
-    y = parseInt(y, 10);
+  var setCoordinates = function (xCorrection, yCorrection) {
+    var x = parseInt(window.util.getSelector('.map__pin--main').style.left, 10);
+    var y = parseInt(window.util.getSelector('.map__pin--main').style.top, 10);
     x += xCorrection;
     y += yCorrection;
     return Math.round(x) + ', ' + Math.round(y);
