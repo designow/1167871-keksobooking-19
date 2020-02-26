@@ -2,7 +2,7 @@
 (function () {
   // Строимость проживания в бунгало/квартире/доме/дворце
   var PRICES = [0, 1000, 5000, 10000];
-
+  var ESC_KEY = 'Escape';
   var FORM_ELEMENTS = [
     '.ad-form fieldset',
     '.map__filters select',
@@ -25,7 +25,7 @@
     }
   };
 
-  // Отключаем элементы форм
+  // Отключаем элементы формы
   setDisableToggle(FORM_ELEMENTS, 'add');
 
   var activateForm = function () {
@@ -100,4 +100,62 @@
   });
 
   setGuests(window.util.getSelector('#room_number').value);
+  var form = document.querySelector('.ad-form');
+  // Сброс формы
+  window.util.getSelector('.ad-form__reset').addEventListener('click', function (evt) {
+    evt.preventDefault();
+    form.reset();
+    // Установка координат в поле адрес
+    window.util.getSelector('#address').value = window.map.setCoordinates(
+        window.map.MAP_PIN_SIZE / 2,
+        window.map.MAP_PIN_SIZE / 2);
+  });
+
+  // Передача данных формы в AJAX для загрузки на сервер
+  // Слушатель отправки формы
+  form.addEventListener('submit', function (evt) {
+
+    var errorHandler = function () {
+      var fragment = document.createDocumentFragment();
+      var succesTemplate = window.util.getSelector('#error').content;
+      fragment.appendChild(succesTemplate.cloneNode(true));
+      window.util.getSelector('main').appendChild(fragment);
+      var closeErrorHandler = function (evnt) {
+        if (evnt.type === 'keydown' && evnt.key === ESC_KEY || evnt.type === 'click') {
+          if (window.util.getSelector('.error')) {
+            window.util.getSelector('.error').remove();
+          }
+        }
+      };
+      window.util.getSelector('.error').addEventListener('click', closeErrorHandler);
+      document.addEventListener('keydown', closeErrorHandler);
+    };
+    var successHandler = function () {
+      // Сбрасываем форму
+      form.reset();
+
+      // Установка координат в поле адрес
+      window.util.getSelector('#address').value = window.map.setCoordinates(
+          window.map.MAP_PIN_SIZE / 2,
+          window.map.MAP_PIN_SIZE / 2);
+
+      // Включаем оверлей формы
+      window.util.getSelector('.ad-form').classList.add('ad-form--disabled');
+      // Отключаем элементы формы
+      setDisableToggle(FORM_ELEMENTS, 'add');
+      var fragment = document.createDocumentFragment();
+      var succesTemplate = window.util.getSelector('#success').content;
+      fragment.appendChild(succesTemplate.cloneNode(true));
+      window.util.getSelector('.notice').appendChild(fragment);
+      var closeHandler = function (eventData) {
+        if (eventData.type === 'keydown' && eventData.key === ESC_KEY || eventData.type === 'click') {
+          window.util.getSelector('.success').remove();
+        }
+      };
+      window.util.getSelector('.success').addEventListener('click', closeHandler);
+      document.addEventListener('keydown', closeHandler);
+    };
+    window.upload(new FormData(form), successHandler, errorHandler);
+    evt.preventDefault();
+  });
 })();
