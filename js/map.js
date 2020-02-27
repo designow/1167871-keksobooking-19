@@ -6,6 +6,10 @@
   var Y_MAX = 630;
   var MAP_PIN_HEIGHT = 85;
   var MAP_PIN_SIZE = 65;
+  var DEFAULT_PIN_COORDINATES = {
+    left: '570px',
+    top: '375px'
+  };
 
   // Функция определения координат метки
   var setCoordinates = function (xCorrection, yCorrection) {
@@ -22,6 +26,7 @@
     Y_MAX: Y_MAX,
     MAP_PIN_HEIGHT: MAP_PIN_HEIGHT,
     MAP_PIN_SIZE: MAP_PIN_SIZE,
-    setCoordinates: setCoordinates
+    setCoordinates: setCoordinates,
+    DEFAULT_PIN_COORDINATES: DEFAULT_PIN_COORDINATES
   };
 })();

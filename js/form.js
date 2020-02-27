@@ -100,21 +100,37 @@
   });
 
   setGuests(window.util.getSelector('#room_number').value);
-  var form = document.querySelector('.ad-form');
-  // Сброс формы
-  window.util.getSelector('.ad-form__reset').addEventListener('click', function (evt) {
-    evt.preventDefault();
+  // Сброс состояния приложения
+  var resetHandler = function () {
     form.reset();
+    window.util.getSelector('.map__filters').reset();
+    // Удаляем все пины и карточки с карты
+    window.pin.addRemovePins();
+    // Возвращаем карту в исходное состояние
+    window.util.getSelector('.map').classList.add('map--faded');
+    window.util.getSelector('.map__pin--main').style.left = window.map.DEFAULT_PIN_COORDINATES.left;
+    window.util.getSelector('.map__pin--main').style.top = window.map.DEFAULT_PIN_COORDINATES.top;
+    window.mapFlag = false;
+
     // Установка координат в поле адрес
     window.util.getSelector('#address').value = window.map.setCoordinates(
         window.map.MAP_PIN_SIZE / 2,
         window.map.MAP_PIN_SIZE / 2);
+    // Включаем оверлей формы
+    window.util.getSelector('.ad-form').classList.add('ad-form--disabled');
+    // Отключаем элементы формы
+    setDisableToggle(FORM_ELEMENTS, 'add');
+  };
+  var form = document.querySelector('.ad-form');
+  // Управляемый сброс формы объявления
+  window.util.getSelector('.ad-form__reset').addEventListener('click', function (evt) {
+    evt.preventDefault();
+    resetHandler();
   });
 
   // Передача данных формы в AJAX для загрузки на сервер
   // Слушатель отправки формы
   form.addEventListener('submit', function (evt) {
-
     var errorHandler = function () {
       var fragment = document.createDocumentFragment();
       var succesTemplate = window.util.getSelector('#error').content;
@@ -131,22 +147,11 @@
       document.addEventListener('keydown', closeErrorHandler);
     };
     var successHandler = function () {
-      // Сбрасываем форму
-      form.reset();
-
-      // Установка координат в поле адрес
-      window.util.getSelector('#address').value = window.map.setCoordinates(
-          window.map.MAP_PIN_SIZE / 2,
-          window.map.MAP_PIN_SIZE / 2);
-
-      // Включаем оверлей формы
-      window.util.getSelector('.ad-form').classList.add('ad-form--disabled');
-      // Отключаем элементы формы
-      setDisableToggle(FORM_ELEMENTS, 'add');
+      resetHandler();
       var fragment = document.createDocumentFragment();
       var succesTemplate = window.util.getSelector('#success').content;
       fragment.appendChild(succesTemplate.cloneNode(true));
-      window.util.getSelector('.notice').appendChild(fragment);
+      window.util.getSelector('main').appendChild(fragment);
       var closeHandler = function (eventData) {
         if (eventData.type === 'keydown' && eventData.key === ESC_KEY || eventData.type === 'click') {
           window.util.getSelector('.success').remove();

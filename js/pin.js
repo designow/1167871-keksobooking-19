@@ -40,10 +40,12 @@
         card[i].remove();
       }
     }
-    var pinLimit = (data.length > PIN_LIMIT) ? PIN_LIMIT : data.length;
-    for (var k = 0; k < pinLimit; k++) {
-      addPinToMap(data[k], k);
-      window.card.addCardToMap(data[k], k);
+    if (data) {
+      var pinLimit = (data.length > PIN_LIMIT) ? PIN_LIMIT : data.length;
+      for (var k = 0; k < pinLimit; k++) {
+        addPinToMap(data[k], k);
+        window.card.addCardToMap(data[k], k);
+      }
     }
   };
   window.pin = {
