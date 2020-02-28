@@ -2,15 +2,15 @@
 (function () {
 // Функция добавления карточки предложения на карту
   var addCardToMap = function (data, num) {
-    var cardFragment = document.createDocumentFragment();
-    var cardTemplate = window.util.getSelector('#card').content;
-    var cardForAdd = cardTemplate.cloneNode(true);
     var TYPE_OF_HOUSE_CARD = {
       'palace': 'Дворец',
       'flat': 'Квартира',
       'house': 'Дом',
       'bungalo': 'Бунгало'
     };
+    var cardFragment = document.createDocumentFragment();
+    var cardTemplate = window.util.getSelector('#card').content;
+    var cardForAdd = cardTemplate.cloneNode(true);
     cardForAdd.querySelector('.map__card').classList.add('hidden');
     cardForAdd.querySelector('.map__card').setAttribute('id', 'offerCard-' + num);
     cardForAdd.querySelector('.popup__title').textContent = data.offer.title;
