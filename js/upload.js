@@ -1,5 +1,4 @@
 'use strict';
-
 (function () {
   var URL = 'https://js.dump.academy/keksobooking';
   var StatusCode = {

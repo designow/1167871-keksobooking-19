@@ -1,5 +1,4 @@
 'use strict';
-
 (function () {
   // Функция выбора элемента
   var getSelector = function (selector) {

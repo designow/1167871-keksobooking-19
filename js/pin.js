@@ -21,7 +21,7 @@
         pinButton.classList.add('map__pin--active');
       }
     });
-    pinButton.style = 'left: ' + (data.location.x + window.map.MAP_PIN_SIZE / 2) + 'px; top: ' + (data.location.y + window.map.MAP_PIN_HEIGHT) + 'px';
+    pinButton.style = 'left: ' + (data.location.x + window.map.PIN_SIZE / 2) + 'px; top: ' + (data.location.y + window.map.PIN_HEIGHT) + 'px';
     pinImg.src = data.author.avatar;
     pinImg.alt = data.offer.title;
     fragment.appendChild(pinForAdd);
@@ -88,10 +88,10 @@
         pinHandler.style.top = window.map.Y_MIN + 'px';
       }
 
-      if ((parseInt(pinHandler.style.left, 10) + window.map.MAP_PIN_SIZE / 2) >= window.map.X_MAX) {
-        pinHandler.style.left = (window.map.X_MAX - window.map.MAP_PIN_SIZE / 2) + 'px';
-      } else if ((parseInt(pinHandler.style.left, 10) + window.map.MAP_PIN_SIZE / 2) <= 0) {
-        pinHandler.style.left = 0 - window.map.MAP_PIN_SIZE / 2 + 'px';
+      if ((parseInt(pinHandler.style.left, 10) + window.map.PIN_SIZE / 2) >= window.map.X_MAX) {
+        pinHandler.style.left = (window.map.X_MAX - window.map.PIN_SIZE / 2) + 'px';
+      } else if ((parseInt(pinHandler.style.left, 10) + window.map.PIN_SIZE / 2) <= 0) {
+        pinHandler.style.left = 0 - window.map.PIN_SIZE / 2 + 'px';
       }
     };
 
@@ -100,8 +100,8 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
       window.util.getSelector('#address').value = window.map.setCoordinates(
-          window.map.MAP_PIN_SIZE / 2,
-          window.map.MAP_PIN_HEIGHT);
+          window.map.PIN_SIZE / 2,
+          window.map.PIN_HEIGHT);
     };
 
     document.addEventListener('mousemove', onMouseMove);

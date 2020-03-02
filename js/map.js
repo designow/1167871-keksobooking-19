@@ -4,9 +4,9 @@
   var X_MAX = 1200;
   var Y_MIN = 130;
   var Y_MAX = 630;
-  var MAP_PIN_HEIGHT = 85;
-  var MAP_PIN_SIZE = 65;
-  var DEFAULT_PIN_COORDINATES = {
+  var PIN_HEIGHT = 85;
+  var PIN_SIZE = 65;
+  var defaultPinCoordinates = {
     left: '570px',
     top: '375px'
   };
@@ -24,9 +24,9 @@
     X_MAX: X_MAX,
     Y_MIN: Y_MIN,
     Y_MAX: Y_MAX,
-    MAP_PIN_HEIGHT: MAP_PIN_HEIGHT,
-    MAP_PIN_SIZE: MAP_PIN_SIZE,
+    PIN_HEIGHT: PIN_HEIGHT,
+    PIN_SIZE: PIN_SIZE,
     setCoordinates: setCoordinates,
-    DEFAULT_PIN_COORDINATES: DEFAULT_PIN_COORDINATES
+    defaultPinCoordinates: defaultPinCoordinates
   };
 })();

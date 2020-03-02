@@ -2,7 +2,7 @@
 (function () {
   var NOT_FOR_GUESTS = 100;
   // Веса параметров
-  var PROPERTY_RANK = {
+  var PropertiesRank = {
     'housing-typetype': 2,
     'housing-price': 2,
     'housing-rooms': 1,
@@ -14,8 +14,8 @@
     'elevator': 1,
     'conditioner': 1
   };
-
-  var priceData = {
+  // Определяем числовые значения для понятий цены low, middle, high
+  var PriceData = {
     low: {
       min: 0,
       max: 10000
@@ -53,29 +53,29 @@
 
     // Фильтрация типа жилья
     if (data.offer.type === window.filter.filterData['housing-type']) {
-      rank += PROPERTY_RANK['housing-typetype'];
+      rank += PropertiesRank['housing-typetype'];
     }
 
     // Фильтрация количества комнат
     if (data.offer.rooms === parseInt(window.filter.filterData['housing-rooms'], 10)) {
-      rank += PROPERTY_RANK['housing-rooms'];
+      rank += PropertiesRank['housing-rooms'];
     }
 
     // Фильтрация количества гостей
     if (data.offer.guests >= parseInt(window.filter.filterData['housing-guests'], 10)) {
-      rank += PROPERTY_RANK['housing-guests'];
+      rank += PropertiesRank['housing-guests'];
     }
 
     // Фильтрация наличие фитч
     for (var i = 0; i < data.offer.features.length; i++) {
       if (window.filter.filterData.features.indexOf(data.offer.features[i]) !== -1) {
-        rank += PROPERTY_RANK[data.offer.features[i]];
+        rank += PropertiesRank[data.offer.features[i]];
       }
     }
     // Фильтрация стоимости аренды
-    if (priceData.hasOwnProperty(window.filter.filterData['housing-price'])) {
-      if (data.offer.price >= priceData[window.filter.filterData['housing-price']].min && data.offer.price <= priceData[window.filter.filterData['housing-price']].max) {
-        rank += PROPERTY_RANK['housing-price'];
+    if (PriceData.hasOwnProperty(window.filter.filterData['housing-price'])) {
+      if (data.offer.price >= PriceData[window.filter.filterData['housing-price']].min && data.offer.price <= PriceData[window.filter.filterData['housing-price']].max) {
+        rank += PropertiesRank['housing-price'];
       }
     }
     return rank;
