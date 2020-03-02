@@ -1,7 +1,7 @@
 'use strict';
 (function () {
-    var ESC_KEY = 'Escape';
-// Функция добавления карточки предложения на карту
+  var ESC_KEY = 'Escape';
+  // Функция добавления карточки предложения на карту
   var addCardToMap = function (data, num) {
     var TypeOfObject = {
       'palace': 'Дворец',
@@ -33,7 +33,7 @@
     }
     cardForAdd.querySelector('.popup__description').textContent = data.offer.description;
     var photoTemplate = cardForAdd.querySelector('.popup__photos img');
-    var popupPhotos = cardForAdd.querySelector('.popup__photos'); 
+    var popupPhotos = cardForAdd.querySelector('.popup__photos');
     popupPhotos.removeChild(photoTemplate);
     for (i = 0; i < data.offer.photos.length; i++) {
       var photoForAdd = photoTemplate.cloneNode(true);
