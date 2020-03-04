@@ -3,11 +3,14 @@
   // Строимость проживания в бунгало/квартире/доме/дворце
   var PRICES = [0, 1000, 5000, 10000];
   var ESC_KEY = 'Escape';
+  var ENTER_KEY = 'Enter';
   var formElements = [
     '.ad-form fieldset',
     '.map__filters select',
     '.map__filters fieldset'
   ];
+  var form = document.querySelector('.ad-form');
+  var mapPinMain = window.util.getSelector('.map__pin--main');
   // Флаг определяющий включение карты
   window.mapFlag = false;
 
@@ -27,21 +30,20 @@
 
   // Отключаем элементы формы
   setDisableToggle(formElements, 'add');
-
   var activateForm = function () {
     setDisableToggle(formElements, 'remove');
-    window.util.getSelector('.ad-form').classList.remove('ad-form--disabled');
+    form.classList.remove('ad-form--disabled');
   };
 
-  window.util.getSelector('.map__pin--main').addEventListener('mousedown', function (evt) {
+  mapPinMain.addEventListener('mousedown', function (evt) {
     if (evt.button === 0 && window.mapFlag === false) {
       activateForm();
       window.backend.load(window.data.successHandler, window.data.errorHandler);
     }
   });
 
-  window.util.getSelector('.map__pin--main').addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
+  mapPinMain.addEventListener('keydown', function (evt) {
+    if (evt.key === ENTER_KEY) {
       activateForm();
       window.backend.load(window.data.successHandler, window.data.errorHandler);
     }
@@ -54,23 +56,25 @@
 
 
   // Функция установки минимального значения для поля цена
+  var price = window.util.getSelector('#price');
   var setPrice = function (index) {
-    window.util.getSelector('#price').setAttribute('min', PRICES[index]);
-    window.util.getSelector('#price').setAttribute('placeholder', PRICES[index]);
+    price.setAttribute('min', PRICES[index]);
+    price.setAttribute('placeholder', PRICES[index]);
   };
-
-  setPrice(window.util.getSelector('#type').options.selectedIndex);
-  window.util.getSelector('#type').addEventListener('change', function () {
-    setPrice(window.util.getSelector('#type').options.selectedIndex);
+  var type = window.util.getSelector('#type');
+  setPrice(type.options.selectedIndex);
+  type.addEventListener('change', function () {
+    setPrice(type.options.selectedIndex);
   });
-
+  var timeIn = window.util.getSelector('#timein');
+  var timeOut = window.util.getSelector('#timeout');
   // Синхронизация заезда - выезда
-  window.util.getSelector('#timein').addEventListener('change', function () {
-    window.util.getSelector('#timeout').options.selectedIndex = window.util.getSelector('#timein').options.selectedIndex;
+  timeIn.addEventListener('change', function () {
+    timeOut.options.selectedIndex = timeIn.options.selectedIndex;
   });
 
-  window.util.getSelector('#timeout').addEventListener('change', function () {
-    window.util.getSelector('#timein').options.selectedIndex = window.util.getSelector('#timeout').options.selectedIndex;
+  timeOut.addEventListener('change', function () {
+    timeIn.options.selectedIndex = timeOut.options.selectedIndex;
   });
 
   // Управление числом гостей
@@ -94,12 +98,12 @@
       }
     }
   };
-
-  window.util.getSelector('#room_number').addEventListener('change', function () {
-    setGuests(window.util.getSelector('#room_number').value);
+  var roomNumber = window.util.getSelector('#room_number');
+  roomNumber.addEventListener('change', function () {
+    setGuests(roomNumber.value);
   });
 
-  setGuests(window.util.getSelector('#room_number').value);
+  setGuests(roomNumber.value);
   // Сброс состояния приложения
   var resetHandler = function () {
     form.reset();
@@ -108,8 +112,8 @@
     window.pin.addRemovePins();
     // Возвращаем карту в исходное состояние
     window.util.getSelector('.map').classList.add('map--faded');
-    window.util.getSelector('.map__pin--main').style.left = window.map.defaultPinCoordinates.left;
-    window.util.getSelector('.map__pin--main').style.top = window.map.defaultPinCoordinates.top;
+    mapPinMain.style.left = window.map.defaultPinCoordinates.left;
+    mapPinMain.style.top = window.map.defaultPinCoordinates.top;
     window.mapFlag = false;
 
     // Установка координат в поле адрес
@@ -117,11 +121,11 @@
         window.map.PIN_SIZE / 2,
         window.map.PIN_SIZE / 2);
     // Включаем оверлей формы
-    window.util.getSelector('.ad-form').classList.add('ad-form--disabled');
+    form.classList.add('ad-form--disabled');
     // Отключаем элементы формы
     setDisableToggle(formElements, 'add');
   };
-  var form = document.querySelector('.ad-form');
+
   // Управляемый сброс формы объявления
   window.util.getSelector('.ad-form__reset').addEventListener('click', function (evt) {
     evt.preventDefault();
@@ -131,43 +135,51 @@
   // Передача данных формы в AJAX для загрузки на сервер
   // Слушатель отправки формы
   form.addEventListener('submit', function (evt) {
+    var main = window.util.getSelector('main');
+    // Обработка ошибок формы
     var errorHandler = function () {
       var fragment = document.createDocumentFragment();
       var succesTemplate = window.util.getSelector('#error').content;
       fragment.appendChild(succesTemplate.cloneNode(true));
-      window.util.getSelector('main').appendChild(fragment);
-      var closeErrorHandler = function (eventError) {
-        if (eventError.type === 'click') {
-          if (window.util.getSelector('.error')) {
-            window.util.getSelector('.error').remove();
-          }
-        }
+      main.appendChild(fragment);
+      var error = window.util.getSelector('.error');
+      var keyCloseErrorHandler = function (eventError) {
         if (eventError.type === 'keydown' && eventError.key === ESC_KEY) {
-          if (window.util.getSelector('.error')) {
-            window.util.getSelector('.error').remove();
+          if (error) {
+            error.remove();
           }
+          document.removeEventListener('keydown', keyCloseErrorHandler);
         }
-
       };
-      window.util.getSelector('.error').addEventListener('click', closeErrorHandler);
-      document.addEventListener('keydown', closeErrorHandler);
+      var clickCloseErrorHandler = function () {
+        if (error) {
+          error.remove();
+        }
+        document.removeEventListener('click', clickCloseErrorHandler);
+      };
+      error.addEventListener('click', clickCloseErrorHandler);
+      document.addEventListener('keydown', keyCloseErrorHandler);
     };
+    // Обработка успешной отправки формы
     var successHandler = function () {
       resetHandler();
       var fragment = document.createDocumentFragment();
       var succesTemplate = window.util.getSelector('#success').content;
       fragment.appendChild(succesTemplate.cloneNode(true));
-      window.util.getSelector('main').appendChild(fragment);
-      var closeHandler = function (eventClose) {
-        if (eventClose.type === 'click') {
-          window.util.getSelector('.success').remove();
-        }
+      main.appendChild(fragment);
+      var success = window.util.getSelector('.success');
+      var keyCloseHandler = function (eventClose) {
         if (eventClose.type === 'keydown' && eventClose.key === ESC_KEY) {
-          window.util.getSelector('.success').remove();
+          success.remove();
+          document.removeEventListener('keydown', keyCloseHandler);
         }
       };
-      window.util.getSelector('.success').addEventListener('click', closeHandler);
-      document.addEventListener('keydown', closeHandler);
+      var clickCloseHandler = function () {
+        success.remove();
+        document.removeEventListener('click', clickCloseHandler);
+      };
+      success.addEventListener('click', clickCloseHandler);
+      document.addEventListener('keydown', keyCloseHandler);
     };
     window.upload(new FormData(form), successHandler, errorHandler);
     evt.preventDefault();

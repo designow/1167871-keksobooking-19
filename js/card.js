@@ -47,23 +47,26 @@
   };
   var cardShow = function (num) {
     var cards = document.querySelectorAll('.map__card');
+    var currentCard = window.util.getSelector('#offerCard-' + num);
+    var close = currentCard.querySelector('.popup__close');
     for (var i = 0; i < cards.length; i++) {
       if (!cards[i].classList.contains('hidden')) {
         cards[i].classList.add('hidden');
       }
     }
-    var currentCard = window.util.getSelector('#offerCard-' + num);
-    var closeHandler = function (evt) {
-      if (evt.type === 'click') {
-        currentCard.classList.add('hidden');
-      }
-      if (evt.type === 'keydown' && evt.key === ESC_KEY) {
+    var keyCloseHandler = function (evt) {
+      if (evt.key === ESC_KEY) {
         currentCard.classList.add('hidden');
       }
     };
+    var clickCloseHandler = function () {
+      currentCard.classList.add('hidden');
+      close.removeEventListener('click', clickCloseHandler);
+      document.removeEventListener('keydown', keyCloseHandler);
+    };
     currentCard.classList.remove('hidden');
-    currentCard.querySelector('.popup__close').addEventListener('click', closeHandler);
-    document.addEventListener('keydown', closeHandler);
+    close.addEventListener('click', clickCloseHandler);
+    document.addEventListener('keydown', keyCloseHandler);
   };
   window.card = {
     addCardToMap: addCardToMap,

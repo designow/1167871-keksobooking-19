@@ -13,8 +13,9 @@
 
   // Функция определения координат метки
   var setCoordinates = function (xCorrection, yCorrection) {
-    var x = parseInt(window.util.getSelector('.map__pin--main').style.left, 10);
-    var y = parseInt(window.util.getSelector('.map__pin--main').style.top, 10);
+    var mapPin = window.util.getSelector('.map__pin--main');
+    var x = parseInt(mapPin.style.left, 10);
+    var y = parseInt(mapPin.style.top, 10);
     x += xCorrection;
     y += yCorrection;
     return Math.round(x) + ', ' + Math.round(y);
